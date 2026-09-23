@@ -1,0 +1,23 @@
+# Blueprint do Render: cria só a API. O banco é o PostgreSQL do Neon.
+# No painel do Render: New > Blueprint > escolha este repositório.
+services:
+  - type: web
+    name: rede-comunidade-api
+    runtime: node
+    rootDir: backend
+    region: virginia # mesma região do banco no Neon (AWS us-east-1)
+    plan: free
+    # --include=dev: com NODE_ENV=production o npm pularia o TypeScript, necessário no build.
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: JWT_SECRET
+        generateValue: true
+      # Connection string do Neon (com ?sslmode=require). Pedida na criação do Blueprint.
+      - key: DATABASE_URL
+        sync: false

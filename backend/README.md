@@ -160,17 +160,23 @@ em memória próprio, então rodam isolados, sem Docker e sem tocar no seu banco
 
 ### Opção 1 — Render (mais simples, tem plano gratuito)
 
-1. Suba o repositório para o GitHub.
-2. No [Render](https://render.com): **New → Blueprint** e escolha o repositório.
-   O `render.yaml` cria a API e um PostgreSQL gerenciado, e gera o `JWT_SECRET`.
-3. Preencha `ADMIN_EMAIL`, `ADMIN_CPF` e `ADMIN_SENHA` quando pedir.
-4. Depois do deploy, no **Shell** do serviço rode `npm run db:seed` para criar o admin.
-5. No app, `mobile/.env`: `EXPO_PUBLIC_API_URL=https://rede-comunidade-api.onrender.com`.
+O banco fica no **Neon** (PostgreSQL gratuito, sem expiração); o Render roda só a API.
 
-> O plano gratuito "dorme" após 15 min sem uso (a primeira requisição demora
-> ~50 s) e o Postgres gratuito do Render expira em 30 dias. Para uso real,
-> use o plano pago (~US$ 7/mês) ou um Postgres do **Neon**/**Supabase**
-> (gratuito e sem expiração) — basta trocar a `DATABASE_URL`.
+1. No Neon, crie o projeto na região **AWS US East (N. Virginia)** e copie a
+   connection string (mantenha `?sslmode=require`, remova `&channel_binding=require`).
+2. Crie tabelas e admin a partir do seu PC: coloque a string em `DATABASE_URL`
+   no `.env` e rode `npm run db:seed` (usa `ADMIN_*` do `.env`).
+3. No [Render](https://render.com): **New → Blueprint** e escolha o repositório.
+   O `render.yaml` (na raiz do repositório) cria a API na Virgínia e gera o `JWT_SECRET`; cole a
+   `DATABASE_URL` do Neon quando pedir.
+4. Teste `https://<seu-servico>.onrender.com/health`.
+5. No app, `mobile/.env`: `EXPO_PUBLIC_API_URL=https://<seu-servico>.onrender.com`.
+
+As migrações rodam sozinhas a cada deploy (o servidor aplica ao iniciar).
+
+> O plano gratuito do Render "dorme" após 15 min sem uso (a primeira
+> requisição demora ~50 s). Para uso diário, o plano Starter (~US$ 7/mês)
+> mantém a API sempre ligada.
 
 ### Opção 2 — Docker (qualquer VPS, Railway, Fly.io)
 
