@@ -1,0 +1,51 @@
+### Testes manuais — extensão "REST Client" do VS Code (clique em "Send Request")
+@api = http://localhost:3333
+
+### Saúde
+GET {{api}}/health
+
+### Login do admin (dados do .env) — copie o accessToken da resposta
+# @name login
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "identificador": "presidente@comunidade.com", "senha": "SUA-SENHA-DE-ADMIN" }
+
+@token = {{login.response.body.accessToken}}
+
+### Cadastro de morador (CPF de exemplo válido)
+POST {{api}}/auth/registrar
+Content-Type: application/json
+
+{ "nome": "Rita Souza", "email": "rita@teste.com", "cpf": "111.444.777-35", "rua": "Rua A", "senha": "senha123" }
+
+### Cadastros pendentes
+GET {{api}}/usuarios?status=PENDENTE
+Authorization: Bearer {{token}}
+
+### Aprovar (troque o id)
+POST {{api}}/usuarios/COLE-O-ID-AQUI/aprovar
+Authorization: Bearer {{token}}
+
+### Carregar dados de demonstração
+POST {{api}}/admin/demo
+Authorization: Bearer {{token}}
+
+### Painel
+GET {{api}}/painel
+Authorization: Bearer {{token}}
+
+### Rotas
+GET {{api}}/rotas
+Authorization: Bearer {{token}}
+
+### Criar alerta
+POST {{api}}/alertas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "tipo": "Alagamento", "gravidade": "Alta", "descricao": "Rua alaga com chuva forte", "ponto": { "lat": -23.5012, "lng": -46.6299 } }
+
+### Famílias mais vulneráveis primeiro
+GET {{api}}/familias?ordenar=vulnerabilidade
+Authorization: Bearer {{token}}
