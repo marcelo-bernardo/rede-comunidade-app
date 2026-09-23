@@ -1,0 +1,18 @@
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Variáveis locais
+.env
+.env*.local
+
+# Nativo (gerado pelo prebuild/EAS)
+/ios
+/android
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision

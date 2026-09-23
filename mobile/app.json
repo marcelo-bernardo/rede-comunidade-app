@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Rede Comunidade",
+    "slug": "rede-comunidade",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ecfdf5"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.afavorita.redecomunidade"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ecfdf5"
+      },
+      "package": "com.afavorita.redecomunidade"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "rede-comunidade"
+  }
+}
